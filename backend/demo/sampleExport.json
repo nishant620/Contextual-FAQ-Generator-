@@ -1,0 +1,39 @@
+{
+  "exportDate": "2024-01-15T10:35:00.000Z",
+  "count": 5,
+  "faqs": [
+    {
+      "question": "What is the purpose of example.com?",
+      "answer": "Example.com is a domain reserved for use in illustrative examples in documents. It is intended to be used in documentation and literature without requiring prior coordination or permission.",
+      "sourceUrl": "https://example.com",
+      "createdAt": "2024-01-15T10:30:05.000Z"
+    },
+    {
+      "question": "Can I use example.com in my documentation?",
+      "answer": "Yes, you may use example.com in literature without prior coordination or asking for permission. It is specifically designed for illustrative purposes in documents.",
+      "sourceUrl": "https://example.com",
+      "createdAt": "2024-01-15T10:30:05.000Z"
+    },
+    {
+      "question": "Where can I find more information about example.com?",
+      "answer": "More information about example.com can be found at the IANA (Internet Assigned Numbers Authority) website, which manages domain registrations and maintains information about reserved domains.",
+      "sourceUrl": "https://example.com",
+      "createdAt": "2024-01-15T10:30:05.000Z"
+    },
+    {
+      "question": "Do I need to request permission to use example.com?",
+      "answer": "No, you do not need to request permission or coordinate before using example.com in your documentation. It is freely available for illustrative purposes.",
+      "sourceUrl": "https://example.com",
+      "createdAt": "2024-01-15T10:30:05.000Z"
+    },
+    {
+      "question": "Who manages example.com?",
+      "answer": "Example.com is managed by IANA (Internet Assigned Numbers Authority), which is responsible for coordinating the global Internet's systems of unique identifiers.",
+      "sourceUrl": "https://example.com",
+      "createdAt": "2024-01-15T10:30:05.000Z"
+    }
+  ]
+}
+
+
+
