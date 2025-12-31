@@ -1,27 +1,7 @@
 # Contextual FAQ Generator
 
-> AI-powered FAQ generation system that crawls websites and generates contextual frequently asked questions using OpenAI.
+> 
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18.2-blue.svg)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
-
-## 📋 Table of Contents
-
-- [Overview](#-overview)
-- [Tech Stack](#-tech-stack)
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Environment Variables](#-environment-variables)
-- [How It Works](#-how-it-works)
-- [API Documentation](#-api-documentation)
-- [Usage](#-usage)
-- [Project Structure](#-project-structure)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ## 🎯 Overview
 
@@ -147,8 +127,7 @@ Create a `.env` file in the `backend/` directory:
 PORT=5000
 NODE_ENV=development
 
-# MongoDB Configuration
-MONGO_URI=mongodb://localhost:27017/faq-generator
+
 # For MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/faq-generator
 
 # OpenAI API
