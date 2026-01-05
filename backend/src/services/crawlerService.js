@@ -1,25 +1,19 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-/**
- * Crawls a website and extracts structured content
- * @param {string} url - The website URL to crawl
- * @returns {Object} Structured content with title, headings, paragraphs, and cleanedText
- */
 const crawlWebsite = async (url) => {
   try {
-    // Validate URL
+    
     if (!url || typeof url !== 'string') {
       throw new Error('Valid URL is required');
     }
 
-    // Ensure URL has protocol
+   
     let validUrl = url.trim();
     if (!validUrl.startsWith('http://') && !validUrl.startsWith('https://')) {
       validUrl = `https://${validUrl}`;
     }
 
-    // Fetch HTML using axios with realistic browser headers
     const response = await axios.get(validUrl, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -36,17 +30,16 @@ const crawlWebsite = async (url) => {
         'DNT': '1',
         'Referer': 'https://www.google.com/'
       },
-      timeout: 30000, // 30 second timeout
+      timeout: 30000,
       maxRedirects: 10,
       validateStatus: (status) => status >= 200 && status < 400,
-      // Don't decompress automatically - let axios handle it
+     
       decompress: true
     });
 
-    // Parse HTML with cheerio
+   
     const $ = cheerio.load(response.data);
 
-    // Remove unwanted elements (scripts, styles, nav, footer, etc.)
     $('script').remove();
     $('style').remove();
     $('nav').remove();
@@ -66,13 +59,11 @@ const crawlWebsite = async (url) => {
     $('iframe').remove();
     $('svg').remove();
 
-    // Extract title
     const title = $('title').text().trim() || 
                   $('h1').first().text().trim() || 
                   $('meta[property="og:title"]').attr('content') || 
                   'Untitled';
 
-    // Extract headings (h1-h6)
     const headings = {
       h1: [],
       h2: [],
@@ -82,7 +73,6 @@ const crawlWebsite = async (url) => {
       h6: []
     };
 
-    // Extract all headings
     for (let i = 1; i <= 6; i++) {
       $(`h${i}`).each((_, element) => {
         const text = $(element).text().trim();
@@ -92,16 +82,15 @@ const crawlWebsite = async (url) => {
       });
     }
 
-    // Extract paragraphs
     const paragraphs = [];
     $('p').each((_, element) => {
       const text = $(element).text().trim();
-      if (text && text.length > 20) { // Filter out very short paragraphs
+      if (text && text.length > 20) { 
         paragraphs.push(text);
       }
     });
 
-    // Extract main content area (article, main, or body)
+
     let mainContent = '';
     if ($('article').length > 0) {
       mainContent = $('article').text();
@@ -111,27 +100,24 @@ const crawlWebsite = async (url) => {
       mainContent = $('body').text();
     }
 
-    // Store raw text before cleaning
     const rawText = mainContent;
 
-    // Clean and normalize text
     const cleanText = (text) => {
       return text
-        .replace(/\s+/g, ' ')           // Replace multiple whitespace with single space
-        .replace(/\n\s*\n/g, '\n')       // Remove multiple newlines
-        .replace(/[\r\t]/g, ' ')          // Remove carriage returns and tabs
-        .replace(/[^\S\n]+/g, ' ')       // Normalize whitespace
+        .replace(/\s+/g, ' ')           
+        .replace(/\n\s*\n/g, '\n')       
+        .replace(/[\r\t]/g, ' ')          
+        .replace(/[^\S\n]+/g, ' ')       
         .trim();
     };
 
     const cleanedText = cleanText(mainContent);
 
-    // Extract meta description if available
+ 
     const description = $('meta[name="description"]').attr('content') || 
                        $('meta[property="og:description"]').attr('content') || 
                        null;
 
-    // Build structured response
     const structuredContent = {
       url: validUrl,
       title: cleanText(title),
@@ -158,9 +144,8 @@ const crawlWebsite = async (url) => {
 
     return structuredContent;
   } catch (error) {
-    // Enhanced error handling
+    
     if (error.response) {
-      // HTTP error response
       const status = error.response.status;
       const statusText = error.response.statusText;
       
@@ -181,22 +166,21 @@ Try using a different website or contact the website owner.`);
         throw new Error(`HTTP ${status}: Failed to fetch website - ${statusText}`);
       }
     } else if (error.request) {
-      // Request made but no response
       throw new Error('Network error: No response from server. Please check the URL and your internet connection.');
     } else if (error.code === 'ENOTFOUND') {
-      // DNS error
+     
       throw new Error(`DNS error: Could not resolve hostname "${error.hostname}". Please check the URL is correct.`);
     } else if (error.code === 'ECONNREFUSED') {
-      // Connection refused
+      
       throw new Error('Connection refused: The server is not responding or the port is blocked.');
     } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
-      // Timeout
+     
       throw new Error('Request timeout: The server took too long to respond. The website may be slow or unavailable.');
     } else if (error.code === 'CERT_HAS_EXPIRED' || error.code === 'UNABLE_TO_VERIFY_LEAF_SIGNATURE') {
-      // SSL certificate error
+      
       throw new Error('SSL certificate error: The website has an invalid or expired SSL certificate.');
     } else {
-      // Other errors
+    
       throw new Error(`Failed to crawl website: ${error.message}`);
     }
   }
